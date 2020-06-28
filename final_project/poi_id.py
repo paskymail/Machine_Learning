@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-sys.path.append("./Machine_Learning/ud120-projects/tools/")
+sys.path.append("./Machine_Learning/tools/")
 sys.path.append("./Machine_Learning/final_project/")
 
 from feature_format import featureFormat, targetFeatureSplit

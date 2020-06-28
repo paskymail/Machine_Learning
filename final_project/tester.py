@@ -13,7 +13,7 @@
 import pickle
 import sys
 from sklearn.model_selection import StratifiedShuffleSplit
-sys.path.append("./Machine_Learning/ud120-projects/tools/")
+sys.path.append("./Machine_Learning/tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
 
