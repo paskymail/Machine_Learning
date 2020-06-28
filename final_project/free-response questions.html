@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Enron Submission Free-Response Questions</title>
+        <style>
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </head>
+    <body class="vscode-light">
+        <h1 id="enron-submission-free-response-questions">Enron Submission Free-Response Questions</h1>
+<p>A critical part of machine learning is making sense of your analysis process and communicating it to others. The questions below will help us understand your decision-making process and allow us to give feedback on your project. Please answer each question; your answers should be about 1-2 paragraphs per question. If you find yourself writing much more than that, take a step back and see if you can simplify your response!</p>
+<p>When your evaluator looks at your responses, he or she will use a specific list of rubric items to assess your answers. Here is the link to that rubric: [Link] Each question has one or more specific rubric items associated with it, so before you submit an answer, take a look at that part of the rubric. If your response does not meet expectations for all rubric points, you will be asked to revise and resubmit your project. Make sure that your responses are detailed enough that the evaluator will be able to understand the steps you took and your thought processes as you went through the data analysis.</p>
+<p>Once you’ve submitted your responses, your coach will take a look and may ask a few more focused follow-up questions on one or more of your answers.</p>
+<p>We can’t wait to see what you’ve put together for this project!</p>
+<h2 id="1-project-summary">1. project summary</h2>
+<p>Summarize for us the goal of this project and how machine learning is useful in trying to accomplish it. As part of your answer, give some background on the dataset and how it can be used to answer the project question. Were there any outliers in the data when you got it, and how did you handle those?  [relevant rubric items: “data exploration”, “outlier investigation”]</p>
+<h3 id="11-project-goal">1.1 project goal</h3>
+<p>The goal is to identify potential persons of interest based on the information contained in a mailing and financial related dataset. Therefore, each person has an associated dictionary with financial and email related features as well as a &quot;poi&quot; label, which determines whether or not a person is of interest.</p>
+<p>In order to determine if a new and unseen person is of interest or not, we are going to first train a classifier. The classifier should be able to learn from a labelled dataset how the features can be used to classify into Poi or not. The classifier does it by tuning a number of internal weights in the model to best fit the predictions with the true labels. In order to avoid overfitting to the training set, we will set aside a number of validation samples to verify that the algorithm is able to generalize its predictions to new unseen data.</p>
+<p>The dataset is presented as a dictionary, where the keys are the names of the persons and its values are a dictionary with the following features:</p>
+<ul>
+<li>Email related: to_messages, from_poi_to_this_person, from_messages, other, from_this_person_to_poi, shared_receipt_with_poi and email_address</li>
+<li>Financial: salary,deferral_payments, total_payments, loan_advances, bonus, ,restricted_stock_deferred,deferred_income, total_stock_value ,expenses, exercised_stock_options,long_term_incentive, restricted_stock and director_fees</li>
+<li>Label: Each person is also classified with the poi label (1 if true, 0 if false)</li>
+</ul>
+<p>In total there are 145 people with 19 features, a name, an email and the POI label for each.</p>
+<p>It should be noted that:</p>
+<ul>
+<li>Name and email will not be used for prediction as they are just some associated metadata.</li>
+<li>There are only 18 POIs within 145 persons, being an unbalanced dataset.</li>
+<li>Some values are NaN values (see table below). Actually, for loan advances most of the values are NaN.</li>
+<li>Fortunately, all persons are classified as POIs or not.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>number of NaNs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>poi</td>
+<td>0</td>
+</tr>
+<tr>
+<td>to_messages</td>
+<td>59</td>
+</tr>
+<tr>
+<td>from_poi_to_this_person</td>
+<td>59</td>
+</tr>
+<tr>
+<td>from_messages</td>
+<td>59</td>
+</tr>
+<tr>
+<td>other</td>
+<td>53</td>
+</tr>
+<tr>
+<td>from_this_person_to_poi</td>
+<td>59</td>
+</tr>
+<tr>
+<td>shared_receipt_with_poi</td>
+<td>59</td>
+</tr>
+<tr>
+<td>salary</td>
+<td>51</td>
+</tr>
+<tr>
+<td>deferral_payments</td>
+<td>107</td>
+</tr>
+<tr>
+<td>total_payments</td>
+<td>21</td>
+</tr>
+<tr>
+<td>loan_advances</td>
+<td>142</td>
+</tr>
+<tr>
+<td>bonus</td>
+<td>64</td>
+</tr>
+<tr>
+<td>restricted_stock_deferred</td>
+<td>128</td>
+</tr>
+<tr>
+<td>deferred_income</td>
+<td>97</td>
+</tr>
+<tr>
+<td>total_stock_value</td>
+<td>20</td>
+</tr>
+<tr>
+<td>expenses</td>
+<td>51</td>
+</tr>
+<tr>
+<td>exercised_stock_options</td>
+<td>44</td>
+</tr>
+<tr>
+<td>long_term_incentive</td>
+<td>80</td>
+</tr>
+<tr>
+<td>restricted_stock</td>
+<td>36</td>
+</tr>
+<tr>
+<td>director_fees</td>
+<td>129</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-outliers">1.2 outliers</h3>
+<ul>
+<li>
+<p>Financial data: we use pandas scatter_matrix to plot all financial variables against each other in a scatter plot as well as a histogram per variable. We also list the top largest and smallest values of each variable.
+<img src="file:///c:\Users\pasky\Documents\Udacity_Airbus\Modulo_4_Machine_learning\Machine_Learning\final_project\Financial_data_pre.png" alt="scatter matrix">
+The first obvious outlier is TOTAL, which is removed. It likely comes from parsing an Excel table.
+We also see a group of outliers on most of the upper values of the variables. After a first glance, we see that many corresponds to POIs. It seems that most POIs have in common such high amounts and therefore they are not considered as outliers. As the number of POIs are low, I decided to put them aside from the data in order to avoid confusing them as outliers.
+<img src="file:///c:\Users\pasky\Documents\Udacity_Airbus\Modulo_4_Machine_learning\Machine_Learning\final_project\Financial_data.png" alt="scatter matrix">
+We take a look to the remaining values. We see again some high values on salary, deferral payments, total payments and loan advances. As FREVERT MARK is involved in all of them, we consider that they are not outliers. So many mistakes in the same direction for the same person are unlikely. LAVORATO JOHN is also a similar case and we decide to keep it.
+BHATNAGAR SANJAY also appears with abnormal values. The restricted_stock_deferred figure (15456k) is several orders of magnitude higher than the second one (44k). His restricted stock is also negative, being the only one. We consider both values as outliers and replace them by NaN.
+Finally, BELFER ROBERT is the only one with negative total stock value, negative deferral payments and positive restricted_stock_deferred. We consider these values as outliers and replace them by NaN.</p>
+</li>
+<li>
+<p>Email data: we use pandas scatter_matrix to plot all email variables against each other in a scatter plot as well as a histogram per variable. We also list the top largest and smallest values of each variable.
+<img src="file:///c:\Users\pasky\Documents\Udacity_Airbus\Modulo_4_Machine_learning\Machine_Learning\final_project\email_data.png" alt="scatter matrix">
+We do not see any outliers as all values seems possible.
+As a note, we see again Mr. FREVERT and Mr. LAVORATO in the top values, which indicates that something may be happening with them.
+Finally, Mr BELFER and Mr.  BHATNAGAR do not appear in the top values, which indicates that they may be indeed outliers.</p>
+</li>
+</ul>
+<h2 id="2-features">2. Features</h2>
+<p>What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “intelligently select features”, “properly scale features”]</p>
+<h3 id="21-feature-selection">2.1 Feature selection</h3>
+<p>In order to select the most relevant features, we are going to use the Kbest algorithm using the ANOVA F-value. In scikit learn this methos is called f-classif. We have chosen this method because it is the most suitable for clasification problems where features are quantitative. The F-value scores examine if, when we group the numerical feature by the target vector, the means for each group are significantly different (<a href="https://chrisalbon.com/machine_learning/feature_selection/anova_f-value_for_feature_selection/">https://chrisalbon.com/machine_learning/feature_selection/anova_f-value_for_feature_selection/</a>).</p>
+<p>Under null hypothesis the F-value is expected to be 1. The higher the value, the more confident we are to reject it. Therefore we are going to keep the highest values. In order to assess if a F-value is high enough, we would need to  compute the F-distribution to calculate probabilities of discarding the null hypothesis. However, as we just want to select features, we are going to keep all features with values around 5 or higher:</p>
+<table>
+<thead>
+<tr>
+<th>feature</th>
+<th>F-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'to_messages'</td>
+<td>'1.69882434858085'</td>
+</tr>
+<tr>
+<td>'from_poi_to_this_person'</td>
+<td>'5.344941523147337'</td>
+</tr>
+<tr>
+<td>'from_messages'</td>
+<td>'0.16416449823428736'</td>
+</tr>
+<tr>
+<td>'other'</td>
+<td>'4.204970858301416'</td>
+</tr>
+<tr>
+<td>'from_this_person_to_poi'</td>
+<td>'2.426508127242878'</td>
+</tr>
+<tr>
+<td>'shared_receipt_with_poi'</td>
+<td>'8.74648553212908'</td>
+</tr>
+<tr>
+<td>'salary'</td>
+<td>'18.575703268041785'</td>
+</tr>
+<tr>
+<td>'deferral_payments'</td>
+<td>'0.23025211104949278'</td>
+</tr>
+<tr>
+<td>'total_payments'</td>
+<td>'8.866721537107772'</td>
+</tr>
+<tr>
+<td>'loan_advances'</td>
+<td>'7.242730396536018'</td>
+</tr>
+<tr>
+<td>'bonus'</td>
+<td>'21.06000170753657'</td>
+</tr>
+<tr>
+<td>'restricted_stock_deferred'</td>
+<td>'0.8603632406710227'</td>
+</tr>
+<tr>
+<td>'deferred_income'</td>
+<td>'11.5955476597306'</td>
+</tr>
+<tr>
+<td>'total_stock_value'</td>
+<td>'24.324449081480598'</td>
+</tr>
+<tr>
+<td>'expenses'</td>
+<td>'6.23420114050674'</td>
+</tr>
+<tr>
+<td>'exercised_stock_options'</td>
+<td>'25.09754152873549'</td>
+</tr>
+<tr>
+<td>'long_term_incentive'</td>
+<td>'10.072454529369441'</td>
+</tr>
+<tr>
+<td>'restricted_stock'</td>
+<td>'9.18877661833103'</td>
+</tr>
+<tr>
+<td>'director_fees'</td>
+<td>'2.107655943276091'</td>
+</tr>
+</tbody>
+</table>
+<p>The chosen features will be:</p>
+<table>
+<thead>
+<tr>
+<th>feature</th>
+<th>F-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>'from_poi_to_this_person'</td>
+<td>'5.344941523147337'</td>
+</tr>
+<tr>
+<td>'shared_receipt_with_poi'</td>
+<td>'8.74648553212908'</td>
+</tr>
+<tr>
+<td>'salary'</td>
+<td>'18.575703268041785'</td>
+</tr>
+<tr>
+<td>'total_payments'</td>
+<td>'8.866721537107772'</td>
+</tr>
+<tr>
+<td>'bonus'</td>
+<td>'21.06000170753657'</td>
+</tr>
+<tr>
+<td>'deferred_income'</td>
+<td>'11.5955476597306'</td>
+</tr>
+<tr>
+<td>'total_stock_value'</td>
+<td>'24.324449081480598'</td>
+</tr>
+<tr>
+<td>'expenses'</td>
+<td>'6.23420114050674'</td>
+</tr>
+<tr>
+<td>'exercised_stock_options'</td>
+<td>'25.09754152873549'</td>
+</tr>
+<tr>
+<td>'long_term_incentive'</td>
+<td>'10.072454529369441'</td>
+</tr>
+<tr>
+<td>'restricted_stock'</td>
+<td>'9.18877661833103'</td>
+</tr>
+</tbody>
+</table>
+<p>We removed the loan advances due to the fact that although the F-value is high, it is not representative as most of the values are NaN.</p>
+<h3 id="22-new-features">2.2 New features</h3>
+<p>After taking a look to the financial features, it can be seen that they are correlated. For example, people with high salary values also appear in the top values of the rest of the financial values. Therefore, we are going to create a new feature that summarizes the financial features into a single one.</p>
+<p>The new feature is defined as the average of the scaled available financial features for each person. Therefore, it will be between 0 and 1 and will be high for people with high financial values.</p>
+<p>The idea behind is to replace multiple features with a single one that represents the underlaying fact that this person was making a lot of money,</p>
+<p>After computing the F-value for, it happens that the value is 0.64 and therefore it will be discarded. Basically, the financial features separately work much better.</p>
+<h3 id="23-feature-scaling">2.3 Feature scaling</h3>
+<p>As we have seen in the previous section, the smallest and largest values are very different between variables. Therefore higher numbers will induce bigger changes in the algorithm. In order to give similar importance to the variables, we are going to scale them so they have similar importance. We could normalize them using the average and standard deviation, but we will use the max-min scaler as in the course. Finally, although not all algorithms are affected by feature scaling, we will do it anyway since we want to try with several algorithms and some of them need it (SVM).</p>
+<h2 id="3-algorithm">3. Algorithm</h2>
+<h3 id="31-algorithms-tested">3.1 Algorithms tested</h3>
+<p>What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]</p>
+<p>The followings algorithms were tested, using the recall can precision metrics for comparison. The metrics have been computed using the training set.</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>precision</th>
+<th>recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GaussianNB</td>
+<td>0.33</td>
+<td>0.31</td>
+</tr>
+<tr>
+<td>DecisionTreeClassifier</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SVC-Linear</td>
+<td>0.75</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>SVC-rbf</td>
+<td>1</td>
+<td>0.15</td>
+</tr>
+</tbody>
+</table>
+<p>As can be seen, the values of the metrics are not representative of true performance of the algorithms, this is specially the case for the decision tree where both values are at 100% due to a clear overfitting.</p>
+<p>In order to account for the capacity of the algorithms to generalize when they face unseen samples, we will separate the data into 2 sets, one for training containing the 70% of the samples and the other for validation containing the remaining 30%. The samples are assigned randomly to each set.
+Due to the fact that the assignations are at random, we will obtain different values each time we run it. To be more precise, we would need to average it over a number of different splits, for example using the k-fold algorithm, but for now we just want to have an idea of the performance. We will use later on stratifiedKfold to get the performance values of our chosen algorithm.</p>
+<p>The precision and recall values are computed now using the validation set.</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>precision</th>
+<th>recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GaussianNB</td>
+<td>0.5</td>
+<td>0.6</td>
+</tr>
+<tr>
+<td>DecisionTreeClassifier</td>
+<td>0.25</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>SVC-Linear</td>
+<td>0.33</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>SVC-rbf</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>We can see the how the true performance of the decision tree is much lower. Surprisingly, the performance of the GaussianNB is now better. Although it could be possible just by chance due to the split between training and validation sets, after using <a href="http://tester.py">tester.py</a> to double check this performance, it happens to be actually the case (although with lower values).</p>
+<p>Our best algorithm is definitely GaussianNB.</p>
+<h3 id="32-tune-parameters">3.2 Tune parameters</h3>
+<p>What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric items: “discuss parameter tuning”, “tune the algorithm”]</p>
+<p>As the GaussianNB already complies with the 30% precision and recall requirements, we will choose the worst performant algorithm (SVC-rbf) to tune it and see if we can reach better levels of performance.</p>
+<p>The first thing to notice is that the true positives are 0 since both recall and precision are 0. This is due to the fact that the labels in the dataset are unbalanced, that means, there are very few POIs (18), compared to the non POIs (127) and the algorithm has learn to classify everything as Non POI.</p>
+<p>Therefore we can:</p>
+<ul>
+<li>increase the &quot;C&quot; parameter, giving more weight to correctly predict the POIs.</li>
+<li>increase the &quot;gamma&quot; parameter, giving more weight to closest samples to the decision boundary and obtaining a more wiggly decision boundary.</li>
+</ul>
+<p>In order to select the most suitable values of the parameters, we will use search grid function to iterate through all the values and obtain the ones with the greatest performance. The possible values for both gamma and C are from 0.001 to 1000 in a log 10 scale.</p>
+<p>Due to the fact that we have 2 metrics to find a maximum, I have built a new scoring function to measure performance as p = precision*recall. Using the accuracy metric would be misleading since an algorithm predicting all as non-POI would have great accuracy as the dataset is unbalanced (only 18 POIs). We could replace it by balanced_accuracy_score instead, but I wanted to be original and better target the requirements.</p>
+<p>Finally, the validation and training set will be determined using the stratified shuffle split cross validation function. This function shuffles and splits the data N folds to obtain the train and validation sets. It will be better explained later on.</p>
+<p>After running GridSearchCV, the best parameters are: 'C': 100.0, 'gamma': 0.1 . The performance value is p=0.05 &lt; 0.3*0.3 = 0.09, which implies that even if we tuned the parameters, we could not reach the 30% precision and recall. Therefore we will keep the GaussianNB algorithm</p>
+<h3 id="33-validation">3.3 Validation</h3>
+<p>What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric items: “discuss validation”, “validation strategy”]</p>
+<p>Validation checks the algorithm performance against new unseen samples. By unseen I mean samples not used during training. It is important to validate since if the algorithm has enough parameters compared to the available training samples, it can &quot;memorize&quot; the results for the training set, obtaining great performance. However, when faced with unseen data, it will not be able to generalize the results an the prediction performance will be poor.</p>
+<p>A classic mistake is to spit the training and validation distributions so they are not statistically similar. For example, if the elements belonging to one class are overepresented in the validation set or the probability distribution for certain features are different between training and validation sets, the results will be wrong. One way it can easily happen is if the data is sorted and we split the first samples for training and the last ones for validation. It is clear that the value that is used to sort the data will differ between both sets.</p>
+<p>Another classic mistake for small number of samples is not averaging the validation results for example using k-fold. If the validation set is small we can have unlikely data distributions on it that give wrong performance values.</p>
+<p>In order to correctly validate our algorithm, we:</p>
+<ul>
+<li>Shuffle the samples in order to have them  similarly distributed between training and validation sets. Actually, stratifiedKfold preserves the percentage of samples for each class.</li>
+<li>Divide the data into K bins, using each time one of them as the validation set and then average the performance results over them. This will avoid having validated by chance in a single and unlikely validation set obtained randomly. Note that if the sample set is small, which it is the case, this can occur.</li>
+</ul>
+<p>The StratifiedKfold algorithms is also used in the test_classifier function in <a href="http://tester.py">tester.py</a> and in our algorithm.</p>
+<h2 id="4-performance">4 Performance</h2>
+<h3 id="41-performance-metrics">4.1 Performance metrics</h3>
+<p>Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]</p>
+<p>The performance metrics chosen are precision and recall. It is because they are the ones where we have the target of 30% and also because they make sense for the following reasons:</p>
+<ul>
+<li>Although Accuracy is widely used, in this case the labels are very unbalanced as there are very few POIs. This means that an algorithm predicting all labels as Non-POI would have high accuracy even if it is obviously a bad algorithm.</li>
+<li>Therefore we have to prioritize measuring true positives, since it is the most difficult tasks for the algorithm. Both precision and recall measure how well the true positives are predicted:
+<ul>
+<li>Recall: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>t</mi><mi>p</mi></msub><mrow><msub><mi>t</mi><mi>p</mi></msub><mo>+</mo><msub><mi>f</mi><mi>n</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{t_p}{t_p+f_n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.4801959999999998em;vertical-align:-0.5423199999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9378759999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285716em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:-0.10764em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.50732em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285716em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5423199999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> measures that no POI has been left undetected. If we only use recall we incentivize to have as much POIs predicted as possible</li>
+<li>Precision: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>t</mi><mi>p</mi></msub><mrow><msub><mi>t</mi><mi>p</mi></msub><mo>+</mo><msub><mi>f</mi><mi>p</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{t_p}{t_p+f_p}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.4801959999999998em;vertical-align:-0.5423199999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9378759999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285716em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285716em;"><span style="top:-2.357em;margin-left:-0.10764em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.50732em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285716em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5423199999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> avoids that to many non POIs are considered positive by penalizing when false positives occur.</li>
+</ul>
+</li>
+</ul>
+<h3 id="42-performance-results">4.2 Performance results</h3>
+<p>Using GaussianNB(priors=None, var_smoothing=1e-09), these are the performance results obtained using the test_classifier function in <a href="http://tester.py">tester.py</a>:
+Accuracy: 0.84220
+Precision: 0.38749
+Recall: 0.31600
+F1: 0.34811
+F2: 0.32811
+Total predictions: 15000
+True positives:  632
+False positives:  999
+False negatives: 1368
+True negatives: 12001</p>
+<p>Actually, my_classifier.pkl is a pipeline composed by:</p>
+<ul>
+<li>SimpleImputer(missing_values=np.nan, strategy='mean'): in order to replace the NaN values by the feature average, due to the fact that <a href="http://tester.py">tester.py</a> cannot handle NaN values.</li>
+<li>GaussianNB(): our classifier</li>
+</ul>
+<p>The scaling has not been included in the pipeline because it is not needed.</p>
+
+    </body>
+    </html>
