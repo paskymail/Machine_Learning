@@ -21,7 +21,7 @@ finance_related = ["salary", "deferral_payments","total_payments", "loan_advance
 features_list = np.concatenate([["poi"], email_related, finance_related])
 
 
-with open("./Machine_Learning/ud120-projects/final_project/final_project_dataset_unix.pkl", "rb") as data_file:
+with open("./Machine_Learning/final_project/final_project_dataset_unix.pkl", "rb") as data_file:
     data_dict = pickle.load(data_file)
 
 ### Task 2: Remove outliers
