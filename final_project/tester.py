@@ -77,9 +77,9 @@ def test_classifier(clf, dataset, feature_list, folds = 1000):
         print("Got a divide by zero when trying out:", clf)
         print("Precision or recall may be undefined due to a lack of true positive predicitons.")
 
-CLF_PICKLE_FILENAME = "./Machine_Learning/ud120-projects/final_project/my_classifier.pkl"
-DATASET_PICKLE_FILENAME = "./Machine_Learning/ud120-projects/final_project/my_dataset.pkl"
-FEATURE_LIST_FILENAME = "./Machine_Learning/ud120-projects/final_project/my_feature_list.pkl"
+CLF_PICKLE_FILENAME = "./Machine_Learning/final_project/my_classifier.pkl"
+DATASET_PICKLE_FILENAME = "./Machine_Learning/final_project/my_dataset.pkl"
+FEATURE_LIST_FILENAME = "./Machine_Learning/final_project/my_feature_list.pkl"
 
 def dump_classifier_and_data(clf, dataset, feature_list):
     with open(CLF_PICKLE_FILENAME, "wb") as clf_outfile:
